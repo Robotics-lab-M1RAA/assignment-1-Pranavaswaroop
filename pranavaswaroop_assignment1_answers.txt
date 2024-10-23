@@ -1,0 +1,99 @@
+1. ROS nodes : Launch ROS core and carry out the following tasks
+(a) List the currently running nodes
+
+    ans: when using rosnode list; observed /rosout as the currently running node when running roscore
+
+(b) What is the purpose of node /rosout
+
+    ans: as per ros wiki ROS, The /rosout node is part of roscore. rosout subscribes to the standard /rosout topic, records these messages in a textual log file, and rebroadcasts the messages on /rosout_agg.
+    client libraries are required to publish console logging messages to the /rosout topic as a standard interface. 
+
+(c) List the currently running topics
+
+    ans: when running rostopic list: observed /rosout,/rosout_agg as the currently running topics
+
+(d) What topics are subscribed by the node /rosout
+
+    ans: when running rosnode info /rosout; observed Subscriptions as /rosout [unknown type]
+
+(e) What topics are published by the node /rosout
+
+    ans: when running rosnode info /rosout; observed Publications as /rosout_agg [rosgraph_msgs/log]
+
+(f) What are the services provided by the node /rosout
+
+    ans: when running rosnode info /rosout; observed services as /rosout/get_loggers and /rosout/set_logger_level
+
+(g) Kill the node /rosout and again list the running nodes. What is your observation.
+
+    ans: when killing the /rosout node with rosnode kill /rosout command and then listing the nodes with rosnode list , 
+    observed that /rosout is still running after being killed. the roscore terminal shows that the node was killed but then restarted, this is observed as pid is differnt.
+
+(h) What are the functions of commands cleanup, info, kill, list, machine &
+ping of the rosnode command-line tool
+
+    ans: when running the rosnode --help command; observed that 
+        1.rosnode ping tests the connectivity to node
+        2.rosnode list lists the active nodes
+        3.rosnode info prints the information about the specific node
+        4.rosnode machine lists nodes running on a particukar machine or list the machines
+        5.rosnode kill kills a running node
+        6.rosnode cleanup purges the registration info of unreachable nodes
+
+2.
+(b) Launch rqt_graph. Save its screenshot as question2_rqt1.png Comment on your
+observations from rqt_graph.
+
+    ans: on running the command rqt_graph; observed that the node /pranavaswaroop_pubnode is publishing to /rosout topic
+
+(c) List the running nodes in the terminal. Save terminal screenshot as question2_terminal2.png
+
+    ans: on running rosnode list; observed /pranavaswaroop_pubnode and /rosout nodes are active
+
+(d) Modify the publisher code to run concurrently three publisher nodes with the name
+'<your first name_node1'. Run rqt_graph and save the screenshot as question2_rqt2.png
+. Comment on your observations from rqt_graph.
+
+    ans: running the publisher python file 3 times after adding the anonymous=True in node initialization and running rqt_graph; 
+    observed that three nodes with names having the given name(pranavaswaroop_node1) as a starting and differnt end (some numbers) is running. all three are publishing to /rosout
+
+ 3.
+ (b) Run rqt_graph and save the screenshot as question3_rqt1.png. Comment on your
+observations from rqt_graph.
+
+    ans: on running both publisher and subscriber python files, and running the rqt_graph command; 
+    observed that node /pranavaswaroop_pubnode is publishing to both /rosout and /Greetings topics. 
+    subscriber is subscribing from /Greetings topic and publishing to /rosout.
+
+4.
+(a) List the currently running nodes
+
+    ans: when running rosnode list command; observed /CET, /M1RAA_24_26, /pranavaswaroop and /rosout nodes as active nodes.
+
+(b) List the currently running topics
+
+    ans: when running rostopic list command; observed /hello_class, /hello_college, /welcome, /rosout and /rosout_agg topics.
+
+(c) What is the role of the node rosout
+
+    ans: when running rosnode info /rosout command; 
+    observed that the node /rosout publishes rosgraph_msgs/Log to the topic /rosout_agg and subscribes to rosgraph_msgs/Log from topic /rosout.
+    It also shows that /rosout node is connected to all three nodes.
+    from this it can be understood that /rosout serves some functions in enabling other nodes to log information and also serves as the master node.
+    /rosout node serves as the master node as all the created nodes are connected to /rosout.
+    the log info can be used for debugging.
+
+(d) Change the name of node 2 to 'M1RAA 2024' and rerun the code. Write down any
+error message displayed.
+
+    ans: when running the code after changing the name; observed 
+
+    M1RAA_24_26.py:8: UserWarning: 'M1RAA 2024' is not a legal ROS base name. This may cause problems with other ROS tools.
+    rospy.init_node('M1RAA 2024')
+    [FATAL] [1729704058.356889]: unable to register service [/M1RAA 2024/get_loggers] with master: ERROR: parameter [service] contains illegal chars
+    [FATAL] [1729704058.362149]: unable to register service [/M1RAA 2024/set_logger_level] with master: ERROR: parameter [service] contains illegal chars
+    [INFO] [1729704058.374333]: publishing test
+
+    after getting the error when running the rqt_graph command under list all active nodes and topics, 
+    the graph shows the 'M1RAA 2024' node is disconnected from even /rosout node. the graph is saved as 'question4_rqt1.png'
+
